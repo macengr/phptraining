@@ -26,10 +26,9 @@
         $dbSuccess = false;
     } else {
         
-       // 
-
+       // Get the details of the company selected 
         
-       $companyID = $_POST["companyID"];
+       $companyID = isset($_POST["companyID"]);
 		if (isset($companyID) AND $companyID > 0){
             
 

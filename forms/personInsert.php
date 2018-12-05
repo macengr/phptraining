@@ -26,42 +26,45 @@
         $dbSuccess = false;
     } else {
 
-            $Salutation = $_POST["Salutation"];	
-            $FirstName = $_POST["FirstName"];	
-            $LastName = $_POST["LastName"];	
-            $Tel = $_POST["Tel"];	
-            $companyID = $_POST["companyID"];	
-        
-            $tPerson_SQLinsert = "INSERT INTO tPerson (";			
-            $tPerson_SQLinsert .=  "Salutation, ";
-            $tPerson_SQLinsert .=  "FirstName, ";
-            $tPerson_SQLinsert .=  "LastName, ";
-            $tPerson_SQLinsert .=  "Tel, ";	
-            $tPerson_SQLinsert .=  "companyID ";
-            $tPerson_SQLinsert .=  ") ";
+        echo("companyID<br><br>");
+
+        $Salutation = $_POST["Salutation"];	
+		$FirstName = $_POST["FirstName"];	
+		$LastName = $_POST["LastName"];	
+		$Tel = $_POST["Tel"];	
+		$companyID = $_POST["companyID"];	
+	
+		$tPerson_SQLinsert = "INSERT INTO tPerson (";			
+		$tPerson_SQLinsert .=  "Salutation, ";
+		$tPerson_SQLinsert .=  "FirstName, ";
+		$tPerson_SQLinsert .=  "LastName, ";
+		$tPerson_SQLinsert .=  "Tel, ";	
+		$tPerson_SQLinsert .=  "companyID ";
+		$tPerson_SQLinsert .=  ") ";
+		
+		$tPerson_SQLinsert .=  "VALUES (";
+		$tPerson_SQLinsert .=  "'".$Salutation."', ";
+		$tPerson_SQLinsert .=  "'".$FirstName."', ";
+		$tPerson_SQLinsert .=  "'".$LastName."', ";
+		$tPerson_SQLinsert .=  "'".$Tel."', ";	
+		$tPerson_SQLinsert .=  "'".$companyID."' ";
+		$tPerson_SQLinsert .=  ") ";
+
+
+		if (mysqli_query($conn, $tPerson_SQLinsert))  {	
+		
+            header("Location: companyPeopleEdit.php?companyID=".$companyID);
             
-            $tPerson_SQLinsert .=  "VALUES (";
-            $tPerson_SQLinsert .=  "'".$Salutation."', ";
-            $tPerson_SQLinsert .=  "'".$FirstName."', ";
-            $tPerson_SQLinsert .=  "'".$LastName."', ";
-            $tPerson_SQLinsert .=  "'".$Tel."', ";	
-            $tPerson_SQLinsert .=  "'".$companyID."' ";
-            $tPerson_SQLinsert .=  ") ";
-
-
-            if (mysqli_query($conn, $tPerson_SQLinsert))  {	
-            
-                header("Location: companyPeopleEdit.php?companyID=".$companyID);
-                
-            } else {
-                
-                echo '<span style="color:red; ">FAILED to add new person.</span><br /><br />';
-                echo "<br /><hr /><br />";
-                echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                echo '<a href="../index.php">Quit - to homepage</a>';
-                
-            }	
-
+            // Keeps going back to companyID = 2
+			
+		} else {
+			
+			echo '<span style="color:red; ">FAILED to add new person.</span><br /><br />';
+			echo "<br /><hr /><br />";
+			echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			echo '<a href="../index.php">Quit - to homepage</a>';
+			
+		}
     }
 }
 ?>

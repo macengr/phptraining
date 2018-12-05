@@ -1,7 +1,7 @@
 <?php
 /*
 
-*	File:		personEditForm.php
+*	File:			personEditForm.php
 *	By:			TMIT
 *	Date:		2010-06-01
 *
@@ -14,7 +14,9 @@
 *=====================================
 */
 
-$dbServername = "localhost";
+{ 		//	Secure Connection Script
+		
+	$dbServername = "localhost";
     $dbUsername = "root";
     $dbPassword = "";
     $dbName = "alphacrm";
@@ -26,11 +28,13 @@ $dbServername = "localhost";
         $dbSuccess = false;
     } else {
 
-$thisScriptName = "personEditForm.php";
+		$thisScriptName = "personEditForm.php";
 
+		
 
+	$saveClicked = isset($_POST["saveClicked"]) ? $_POST["saveClicked"] : null; //
+	
 
-	$saveClicked = $_POST["saveClicked"];
 	
 	{	//	SAVE button was clicked 
 		if (isset($saveClicked)) {
@@ -90,73 +94,38 @@ $thisScriptName = "personEditForm.php";
 			</h2>';
 	
 	{	//		FORM postPerson 
-			
-		$fld_personID = '<input type="hidden" name="personID" value="'.$personID.'"/>';
-		$fld_companyID = '<input type="hidden" name="companyID" value="'.$companyID.'"/>';
-		$fld_saveClicked = '<input type="hidden" name="saveClicked" value="1"/>';
-
-		$fld_FirstName = '<input type="text" name="createFirstName" value="'.$current_FirstName.'"/>';
-		$fld_LastName = '<input type="text" name="LastName" value="'.$current_LastName.'"/>';
-		$fld_Tel = '<input type="text" name="Telephone" value="'.$current_Tel.'"/>';
-				
-		{	//	create the Salutation DROPDOWN  FIELD 
-			$salut_SQL =  "SELECT lookupValue FROM tLookup ";
-			$salut_SQL .= "WHERE lookupType = 'Salutation' ";
-			$salut_SQL .= "ORDER By lookupOrder ";
-			
-			$salut_SQL_Query = mysqli_query($conn, $salut_SQL);	
-
-			$fld_Salutation = '<select name="Salutation">';
-	 	
-				while ($row = mysqli_fetch_array($salut_SQL_Query, MYSQLI_ASSOC)) {
-				    $salutValue = $row['lookupValue'];
-				    if ($current_Salutation == $salutValue) { 
-				    	$selectedFlag = " selected";
-				    } else { 
-				    	$selectedFlag = "";
-				    }
-				    $fld_Salutation .= '<option'.$selectedFlag.'>'.$salutValue.'</option>';
-				}
-			
-				mysqli_free_result($salut_SQL_Query);		
-	
-			$fld_Salutation .= '</select>';
-			
-		//	END: create the Salutation DROPDOWN  FIELD 
-		}
 		echo '<form name="postPerson" action="'.$thisScriptName.'" method="post">';
 		
-				echo $fld_personID;
-				echo $fld_companyID;
-				echo $fld_saveClicked;
+				echo '<input type="hidden" name="personID" value="'.$personID.'"/>';
+				echo '<input type="hidden" name="companyID" value="'.$companyID.'"/>';
+				echo '<input type="hidden" name="saveClicked" value="1"/>';
+				echo("companyID".$companyID."<br><br>");
 				echo '
 				<table>
 					<tr>
 						<td>Salutation</td>
-						<td>'.$fld_Salutation.'</td>
+						<td><input type="text" name="Salutation" value="'.$current_Salutation.'"/></td>
 					</tr>
 					<tr>
-						<td>First Name</td>
-						<td>'.$fld_FirstName.'</td>
+						<td>FirstName</td>
+						<td><input type="text" name="FirstName" value="'.$current_FirstName.'"/></td>
 					</tr>
 					<tr>
-						<td>Last Name</td>
-						<td>'.$fld_LastName.'</td>
+						<td>LastName</td>
+						<td><input type="text" name="LastName" value="'.$current_LastName.'"/></td>
 					</tr>
 					<tr>
 						<td>Telephone</td>
-						<td>'.$fld_Tel.'</td>
+						<td><input type="text" name="Telephone" value="'.$current_Tel.'"/></td>
 					</tr>
 					<tr>
 						<td></td>
 						<td align="right"><input type="submit"  value="Save" /></td>
-					</tr>					
+					</tr>
 				</table>
 				';
 					
 		echo '</form>';
-		
-
 	//	END:	FORM postPerson 
 	}
 	
@@ -166,6 +135,10 @@ $thisScriptName = "personEditForm.php";
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo '<a href="../index.php">Quit - to homepage</a>';
 
+		
+
+
+	}
 }
 
 ?>

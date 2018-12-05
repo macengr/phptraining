@@ -17,7 +17,7 @@
 */
 
 { 		//	Secure Connection Script
-    $dbServername = "localhost";
+	$dbServername = "localhost";
     $dbUsername = "root";
     $dbPassword = "";
     $dbName = "alphacrm";
@@ -29,13 +29,15 @@
         $dbSuccess = false;
     } else {
 
-// $thisScriptName separated out as it's now used several times
-$thisScriptName = "companyPeopleEdit.php";
+		// $thisScriptName separated out as it's now used several times
+		$thisScriptName = "companyPeopleEdit.php";
 
-		$companyID = $_POST["companyID"];
-		if(!isset($companyID)) {$companyID = $_GET["companyID"]; }
+	
+		
+		$companyID = isset($_POST["companyID"]) ? $_POST["companyID"] : null; // KAM
+		if(!isset($companyID)) {$companyID = isset($_GET["companyID"]); }; // KAM
 
-		if (isset($companyID) AND $companyID > 0){
+		if (isset($companyID) AND $companyID > 0) {
 
 			{	//  Get the details of the company selected 
 										
@@ -84,8 +86,8 @@ $thisScriptName = "companyPeopleEdit.php";
 					$tPerson_SQLselect .= "WHERE companyID = '".$companyID."' ";
 					
 					$tPerson_SQLselect_Query = mysqli_query($conn, $tPerson_SQLselect);	
-                    
-                    $personArray = array();  // Had to add this line. KAM   
+					
+					$personArray = array();		// This must be added (KAM)
 
 					while ($row = mysqli_fetch_array($tPerson_SQLselect_Query, MYSQLI_ASSOC)) {
 						
@@ -169,37 +171,12 @@ $thisScriptName = "companyPeopleEdit.php";
 							{	//		FORM to INSERT person		
 
 								{	//		Create the personAdd form fields
+								$fld_Salutation = '<input type="text" name="Salutation" size="5" maxlength="10"/>';
 								$fld_FirstName = '<input type="text" name="FirstName"  size="10" maxlength="50"/>';
 								$fld_LastName = '<input type="text" name="LastName"  size="10" maxlength="50"/>';
 								$fld_Tel = '<input type="text" name="Tel"  size="10" maxlength="50"/>';			
 								//		END: Create the personAdd form fields
 								}						
-
-								{	//	create the Salutation DROPDOWN  FIELD 
-									$salut_SQL =  "SELECT lookupValue FROM tLookup ";
-									$salut_SQL .= "WHERE lookupType = 'Salutation' ";
-									$salut_SQL .= "ORDER By lookupOrder ";
-									
-									$salut_SQL_Query = mysqli_query($conn, $salut_SQL);	
-						
-									$fld_Salutation = '<select name="Salutation">';
-								 
-										while ($row = mysqli_fetch_array($salut_SQL_Query, MYSQLI_ASSOC)) {
-											$salutValue = $row['lookupValue'];
-											if ($current_Salutation == $salutValue) { 
-												$selectedFlag = " selected";
-											} else { 
-												$selectedFlag = "";
-											}
-											$fld_Salutation .= '<option'.$selectedFlag.'>'.$salutValue.'</option>';
-										}
-									
-										mysqli_free_result($salut_SQL_Query);		
-							
-									$fld_Salutation .= '</select>';
-									
-								//	END: create the Salutation DROPDOWN  FIELD 
-								}
 
 							echo '<form action="personInsert.php" method="post">';
 								echo '<input type="hidden" name="companyID" value="'.$companyID.'" />';
@@ -275,14 +252,14 @@ $thisScriptName = "companyPeopleEdit.php";
 		}
 		
 //		END:	if ($dbSuccess)
-}
+	}
 
-echo "<br /><hr /><br />";
+	echo "<br /><hr /><br />";
 
-unset($companyID);
-echo '<a href="'.$thisScriptName.'">Select Another</a>';
-echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-echo '<a href="../index.php">Quit - to homepage</a>';
+	unset($companyID);
+	echo '<a href="'.$thisScriptName.'">Select Another</a>';
+	echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	echo '<a href="../index.php">Quit - to homepage</a>';
 
 }
 
